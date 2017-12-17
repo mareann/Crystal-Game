@@ -1,14 +1,14 @@
 
 body {
 	/*background-image: url("assets/images/red.jpg");*/
-	background-color: cadetblue;
+	background-color: cadetblue; 
 }
 
 p {
 	font-size: 2em;
 }
 
-      /* Create an "on-click" event attached to the ".userCrystal" class. */
-      $(".userCrystal").on("click", function() {
-
-      	} /* end .userCrystal click */
+#crystals {
+	height: 150px;
+	width:  550px;
+}

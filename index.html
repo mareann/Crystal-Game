@@ -9,31 +9,37 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+  <h1>CRYSTALS COLLECTOR!</h1>
 
-  <h1>Number to Guess: <span id="number-to-guess"></span></h1>
-  
+  <div>
+    <img src="assets/images/crystal-instructions.jpg">
+  </div>
+
+
+  <div style="height: 100px; width: 300px; background-color: pink">
+     <h2>Number to Guess: <span id="number-to-guess"></span></h2>
+   
+     <h2 style="height: 55px; background-color: lightgreen">Your Score: <span id="userScore"></span></h2>
+
   <!-- Note that this div is now empty. We will fill it dynamically -->
   <div id="crystals">
   </div>
 
-<!--   <div id=crystalSection>
-    <img src = "assets/images/red.png" class="userCrystal" height="10%" width="10%">
-    <img src = "assets/images/blue.png" class="userCrystal" height="10%" width="10%">
-    <img src = "assets/images/yellow.png" class="userCrystal" height="10%" width="10%">
-    <img src = "assets/images/green.png" class="userCrystal" height="10%" width="10%">
-  </div> -->
-
   <script type="text/javascript">
 
-      var targetNumber = 53;
+    var targetNumber = 53;
+    var counter = 0;
 
-      $("#number-to-guess").text(targetNumber);
-       var counter = 0;
-      // Now for the hard part. Creating multiple crystals each with their own unique number value.
+    // print new values to screen
+    $("#number-to-guess").text(targetNumber);
+    $("#userScore").text(counter);
+    
+    // Now for the hard part. Creating multiple crystals each with their own unique number value.
 
-      // We begin by expanding our array to include four options.
-      var numberOptions = [10, 5, 3, 7];
-      var colorCrystals = ["red.png","blue.png","yellow.png","green.png"];
+    // We begin by expanding our array to include four options.
+    var numberOptions = [10, 5, 3, 7];
+
+    var colorCrystals = ["red.png","blue.png","yellow.png","green.png"];
 
       // Next we create a for loop to create crystals for every numberOption.
     for (var i = 0; i < numberOptions.length; i++) {
@@ -81,7 +87,10 @@
 
     console.log("counter " + counter + " crystalValue " + crystalValue);
     // All of the same game win-lose logic applies. So the rest remains unchanged.
-    alert("New score: " + counter);
+ //   alert("New score: " + counter);
+
+    // print new value to screen
+    $("#userScore").text(counter);
 
     if (counter === targetNumber) {
       alert("You win!");
