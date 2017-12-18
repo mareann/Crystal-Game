@@ -47,22 +47,57 @@
     var wins = 0;
     var losses = 0;
 
-    // print new values to screen
+    //The random number shown at the start of the game should be between 19 - 120.
+    targetNumber = Math.floor(Math.random() * (120-19)) + 19;
+
+    // print values to screen
     $("#number-to-guess").text(targetNumber);
     $("#userScore").text(counter);
     $("#userWins").text(wins);
-    $("#userLosses").text(losses);
-    
+    $("#userLosses").text(losses); 
+
+    console.log("targetNumber ",targetNumber);
+
     // Now for the hard part. Creating multiple crystals each with their own unique number value.
 
     // We begin by expanding our array to include four options.
     var numberOptions = [10, 5, 3, 7];
 
+    
     var colorCrystals = ["red.png","blue.png","yellow.png","green.png"];
 
-      // Next we create a for loop to create crystals for every numberOption.
+    function createCrystalValue( index, numberOfCrystals ) {
+         var i = index;
+      // generate a number
+      number = Math.floor(Math.random() * (12-1)) + 1;
+      if ( i == 0 )
+      {
+         console.log("ccv i " + number );
+        return( number );
+      }
+      else
+      {
+        // regenerate if duplicate value in array
+        for ( var j = 0; j < numberOfCrystals; j++ )
+        {
+          if ( numberOptions[i] == numberOptions[j] && (i != j ))
+          {
+            console.log("ccv old i " + numberOptions[i]);
+            number = Math.floor(Math.random() * (12-1)) + 1;
+            console.log("ccv new i " + number );
+          }
+       }
+       return(number);
+      }
+      console.log(i + " is " + numberOptions[i]);
+    }
+
+    // Next we create a for loop to create crystals for every numberOption.
     for (var i = 0; i < numberOptions.length; i++) {
 
+      // get crystal value
+      numberOptions[i] = createCrystalValue( i, numberOptions.length );
+      console.log( " after num is " + numberOptions[i]);
       // For each iteration, we will create an imageCrystal
       var imageCrystal = $("<img>");
 
@@ -111,10 +146,22 @@
 
     if (counter === targetNumber) {
       alert("You win!");
+      wins++;
+      $("#userWins").text(wins);
+        //The random number shown at the start of the game should be between 19 - 120.
+      targetNumber = Math.floor(Math.random() * (120-19)) + 19;
+          // print values to screen
+    $("#number-to-guess").text(targetNumber);
       counter = 0;
     }
     else if (counter >= targetNumber) {
       alert("You lose!!");
+      losses++;
+      $("#userLosses").text(losses);
+      //The random number shown at the start of the game should be between 19 - 120.
+      targetNumber = Math.floor(Math.random() * (120-19)) + 19;
+          // print values to screen
+      $("#number-to-guess").text(targetNumber);
       counter = 0;
     }
 
