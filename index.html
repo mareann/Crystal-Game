@@ -16,11 +16,26 @@
   </div>
 
 
-  <div style="height: 100px; width: 300px; background-color: pink">
-     <h2>Number to Guess: <span id="number-to-guess"></span></h2>
-   
+  <div>
+
+    <p style="width: 300px; background-color: pink;margin:0">
+      Number to Guess: <span id="number-to-guess"></span>
+      Your Score: <span id="userScore"></span>
+    </p>
+
+  <p style="width: 300px; background-color: lightgreen;margin:0">
+     Wins: <span id="userWins"></span>
+     Losses: <span id="userLosses"></span>
+   </p>
+
+<!--      <h2>Number to Guess: <span id="number-to-guess"></span></h2>
+       <p style="height: 100px; width: 300px; background-color: pink;margin:0">
+
      <h2 style="height: 55px; background-color: lightgreen">Your Score: <span id="userScore"></span></h2>
 
+     <h2 style="float:right"><span id="userWins"></span></h2>
+     <h2 style="float:right"><span id="userLosses"></span></h2> -->
+  </div>
   <!-- Note that this div is now empty. We will fill it dynamically -->
   <div id="crystals">
   </div>
@@ -29,10 +44,14 @@
 
     var targetNumber = 53;
     var counter = 0;
+    var wins = 0;
+    var losses = 0;
 
     // print new values to screen
     $("#number-to-guess").text(targetNumber);
     $("#userScore").text(counter);
+    $("#userWins").text(wins);
+    $("#userLosses").text(losses);
     
     // Now for the hard part. Creating multiple crystals each with their own unique number value.
 
@@ -51,8 +70,6 @@
       // This will allow the CSS to take effect.
       imageCrystal.addClass("crystal-image");
 
-      // Each imageCrystal will be given a src link to the crystal image
-      //imageCrystal.attr("src", "http://cdn.playbuzz.com/cdn/35910209-2844-45c0-b099-f4d82878d54f/00261fda-4062-4096-81fd-8cf96b9034e8.jpg");
       crystalFile = "assets/images/" + colorCrystals[i];
       imageCrystal.attr("src",crystalFile);
 
@@ -86,7 +103,7 @@
     counter += crystalValue;
 
     console.log("counter " + counter + " crystalValue " + crystalValue);
-    // All of the same game win-lose logic applies. So the rest remains unchanged.
+
  //   alert("New score: " + counter);
 
     // print new value to screen
@@ -94,10 +111,15 @@
 
     if (counter === targetNumber) {
       alert("You win!");
+      counter = 0;
     }
     else if (counter >= targetNumber) {
       alert("You lose!!");
+      counter = 0;
     }
+
+    // print new value to screen
+    $("#userScore").text(counter);
 
   });
 </script>
