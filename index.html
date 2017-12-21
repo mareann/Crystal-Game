@@ -95,7 +95,7 @@
             $("#crystal1").attr("data-crystalvalue",numberOptions[i]);
           if ( i == 2 )
             $("#crystal2").attr("data-crystalvalue",numberOptions[i]);
-         if ( i == 3 )
+          if ( i == 3 )
             $("#crystal3").attr("data-crystalvalue",numberOptions[i]);
 
           //console.log("createCrystalValues numberOptions[" + i + "]" + numberOptions[i]);
@@ -113,35 +113,51 @@
         //console.log("TheSame every index is " + index);
         //console.log("TheSame array is " + array);
         if ( index == 0  && (
-             (array[index] == array[index+1]) 
-          || (array[index] == array[index+2])
-          || (array[index] == array[index+3]) ))
+            first == second ||
+            first == third  ||
+            first == fourth 
+       //      (array[index] == array[index+1]) 
+       //   || (array[index] == array[index+2])
+       //   || (array[index] == array[index+3]) 
+       ))
         {
-          console.log( "TheSame index " + index + " first " + first + " array " + array );
+          //console.log( "TheSame index " + index + " first " + first + " array " + array );
           return true;
         }
         if ( index == 1 && ( 
-             (array[index] == array[index-1]) 
-          || (array[index] == array[index+1])
-          || (array[index] == array[index+2])  ))
+           second == first ||
+           second == third ||
+           second == fourth
+//             (array[index] == array[index-1]) 
+//          || (array[index] == array[index+1])
+//          || (array[index] == array[index+2])  
+          ))
         {
-          console.log("TheSame index " + index + " second " + second + " array " + array );
+          //console.log("TheSame index " + index + " second " + second + " array " + array );
           return true;
         }
         if (index == 2 && (
-             (array[index] == array[index-1]) 
-          || (array[index] == array[index-2])
-          || (array[index] == array[index+1]) ))
+           third == second ||
+           third == first  ||
+           third == fourth
+//             (array[index] == array[index-1]) 
+//          || (array[index] == array[index-2])
+//          || (array[index] == array[index+1]) 
+          ))
         {
-          console.log("TheSame index " + index + " third " + third + " array " + array );
+          //console.log("TheSame index " + index + " third " + third + " array " + array );
           return true;
         }
         if (index == 3 && (
-             (array[index] == array[index-1]) 
-          || (array[index] == array[index-2])
-          || (array[index] == array[index-3]) ))
+           fourth == third  ||
+           fourth == second ||
+           fourth == first
+//             (array[index] == array[index-1]) 
+//          || (array[index] == array[index-2])
+//          || (array[index] == array[index-3]) 
+          ))
         {
-          console.log("TheSame index " + index + " fourth " + fourth + " array " + array );
+          //console.log("TheSame index " + index + " fourth " + fourth + " array " + array );
           return true;
         }
         if ( index == 3 )
