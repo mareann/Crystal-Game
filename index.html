@@ -3,39 +3,33 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Crystal Game</title>
+  <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <!-- JAVASCRIPT  -->
   <!-- ========================================= -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--<script  type="text/javascript" src="assets/javascript/game.js"></script>-->
 </head>
+
 <body>
   <h1>CRYSTALS COLLECTOR!</h1>
 
   <div>
+    <!-- game instructions -->
     <img src="assets/images/crystal-instructions.jpg">
   </div>
 
-
   <div>
-
-    <p style="width: 300px; background-color: pink;margin:0">
-      Number to Guess: <span id="number-to-guess"></span>
-      Your Score: <span id="userScore"></span>
+    <p id="numberSection" style="width: 300px; background-color: lightyellow;margin:0">
+      &nbsp;Number to Guess: <span id="number-to-guess" class="displayNumber"></span>
+      &nbsp;Your Score: <span id="userScore" class="displayNumber"></span>
     </p>
-
-  <p style="width: 300px; background-color: lightgreen;margin:0">
-     Wins: <span id="userWins"></span>
-     Losses: <span id="userLosses"></span>
-   </p>
-
-<!--      <h2>Number to Guess: <span id="number-to-guess"></span></h2>
-       <p style="height: 100px; width: 300px; background-color: pink;margin:0">
-
-     <h2 style="height: 55px; background-color: lightgreen">Your Score: <span id="userScore"></span></h2>
-
-     <h2 style="float:right"><span id="userWins"></span></h2>
-     <h2 style="float:right"><span id="userLosses"></span></h2> -->
+    <p id="userWinsLosses" style="width: 300px; background-color: lightgreen;margin:0">
+     &nbsp;Wins: <span id="userWins"  class="displayNumber"></span>
+     &nbsp;&nbsp;&nbsp;Losses: <span id="userLosses" class="displayNumber"></span>
+    </p>
   </div>
+
   <!-- Note that this div is now empty. We will fill it dynamically -->
   <div id="crystals">
   </div>
@@ -50,63 +44,144 @@
     //The random number shown at the start of the game should be between 19 - 120.
     targetNumber = Math.floor(Math.random() * (120-19)) + 19;
 
-    // print values to screen
-    $("#number-to-guess").text(targetNumber);
-    $("#userScore").text(counter);
-    $("#userWins").text(wins);
-    $("#userLosses").text(losses); 
+    displayUpdate();
 
-    console.log("targetNumber ",targetNumber);
+    //console.log("targetNumber ", targetNumber);
 
     // Now for the hard part. Creating multiple crystals each with their own unique number value.
 
-    // We begin by expanding our array to include four options.
+    // We begin by expanding our array to include four default options.
     var numberOptions = [10, 5, 3, 7];
-
     
     var colorCrystals = ["red.png","blue.png","yellow.png","green.png"];
 
-    function createCrystalValue( index, numberOfCrystals ) {
-         var i = index;
-      // generate a number
-      number = Math.floor(Math.random() * (12-1)) + 1;
-      if ( i == 0 )
-      {
-         console.log("ccv i " + number );
-        return( number );
-      }
-      else
-      {
-        // regenerate if duplicate value in array
-        for ( var j = 0; j < numberOfCrystals; j++ )
-        {
-          if ( numberOptions[i] == numberOptions[j] && (i != j ))
-          {
-            console.log("ccv old i " + numberOptions[i]);
-            number = Math.floor(Math.random() * (12-1)) + 1;
-            console.log("ccv new i " + number );
-          }
-       }
-       return(number);
-      }
-      console.log(i + " is " + numberOptions[i]);
-    }
+    function displayUpdate() {
 
-    // Next we create a for loop to create crystals for every numberOption.
-    for (var i = 0; i < numberOptions.length; i++) {
+      // print values to screen
+      $("#number-to-guess").text(targetNumber);
+      $("#userScore").text(counter);
+      $("#userWins").text(wins);
+      $("#userLosses").text(losses);
+    } // end displayUpdate()
+
+    function createCrystalValues( crystalCnt, array ) {
+       var number = 1;
+       var tmp = 0;
+       var newNumber = true;
+       //console.log("createCrystalValues");
+       while ( newNumber ) 
+        {
+         
+         for ( var i = 0; i < crystalCnt; i++ )
+           {
+             array[i] = Math.floor(Math.random() * (12-1)) + 1;
+             //console.log( "values" + "[" + i + "]" + array[i]);
+           }
+
+          newNumber = TheSame( array );
+          //console.log("same as newNumber " + newNumber);
+          tmp++;
+          if ( tmp > 3 )
+            newNumber = false;
+          //console.log("tmp "+tmp);
+        } // end while newNumber
+
+        for ( i = 0; i < crystalCnt; i++ )
+        {
+          numberOptions[i] = array[i];
+          if ( i == 0 )
+            $("#crystal0").attr("data-crystalvalue",numberOptions[i]);
+          if ( i == 1 )
+            $("#crystal1").attr("data-crystalvalue",numberOptions[i]);
+          if ( i == 2 )
+            $("#crystal2").attr("data-crystalvalue",numberOptions[i]);
+         if ( i == 3 )
+            $("#crystal3").attr("data-crystalvalue",numberOptions[i]);
+
+          //console.log("createCrystalValues numberOptions[" + i + "]" + numberOptions[i]);
+        }   
+    } // end createCrystalValues()
+
+    function TheSame(array) {
+    var first  = array[0];
+    var second = array[1];
+    var third  = array[2];
+    var fourth = array[3];
+    //console.log( "TheSame array is " + array );
+      for ( var index = 0; index < array.length; index++)
+      {
+        //console.log("TheSame every index is " + index);
+        //console.log("TheSame array is " + array);
+        if ( index == 0  && (
+             (array[index] == array[index+1]) 
+          || (array[index] == array[index+2])
+          || (array[index] == array[index+3]) ))
+        {
+          console.log( "TheSame index " + index + " first " + first + " array " + array );
+          return true;
+        }
+        if ( index == 1 && ( 
+             (array[index] == array[index-1]) 
+          || (array[index] == array[index+1])
+          || (array[index] == array[index+2])  ))
+        {
+          console.log("TheSame index " + index + " second " + second + " array " + array );
+          return true;
+        }
+        if (index == 2 && (
+             (array[index] == array[index-1]) 
+          || (array[index] == array[index-2])
+          || (array[index] == array[index+1]) ))
+        {
+          console.log("TheSame index " + index + " third " + third + " array " + array );
+          return true;
+        }
+        if (index == 3 && (
+             (array[index] == array[index-1]) 
+          || (array[index] == array[index-2])
+          || (array[index] == array[index-3]) ))
+        {
+          console.log("TheSame index " + index + " fourth " + fourth + " array " + array );
+          return true;
+        }
+        if ( index == 3 )
+        {
+          //console.log("TheSame return false");
+          return false;
+        }
+
+      }
+  } // end TheSame function
+
+  // Next we create a for loop to create crystals for every numberOption.
+  for ( var i = 0; i < numberOptions.length; i++ ) {
 
       // get crystal value
-      numberOptions[i] = createCrystalValue( i, numberOptions.length );
-      console.log( " after num is " + numberOptions[i]);
-      // For each iteration, we will create an imageCrystal
-      var imageCrystal = $("<img>");
+      //numberOptions[i] = createCrystalValue( i, numberOptions.length );
+    if ( i == 0 )
+      createCrystalValues( numberOptions.length, numberOptions );
 
-      // First each crystal will be given the class ".crystal-image".
-      // This will allow the CSS to take effect.
-      imageCrystal.addClass("crystal-image");
+    //  console.log( "Creating crystal images after num is " + numberOptions[i]);
+    
+    // For each iteration, we will create an imageCrystal
+    var imageCrystal = $("<img>");
 
-      crystalFile = "assets/images/" + colorCrystals[i];
-      imageCrystal.attr("src",crystalFile);
+    // First each crystal will be given the class ".crystal-image".
+    // This will allow the CSS to take effect.
+    imageCrystal.addClass("crystal-image");
+
+    // add crystal id
+    if ( i == 0)
+      imageCrystal.attr("id","crystal0");
+    if ( i == 1 )
+      imageCrystal.attr("id","crystal1");
+    if ( i == 2 )
+      imageCrystal.attr("id","crystal2");
+    if ( i == 3 )
+      imageCrystal.attr("id","crystal3");
+
+    crystalFile = "assets/images/" + colorCrystals[i];
+    imageCrystal.attr("src",crystalFile);
 
     // Each imageCrystal will be given a data attribute called data-crystalValue.
     // This data attribute will be set equal to the array value.
@@ -114,10 +189,10 @@
 
     // Lastly, each crystal image (with all it classes and attributes) will get added to the page.
     $("#crystals").append(imageCrystal);
-  }
+  } // end for
 
 
-  /* Create an "on-click" event attached to the ".crystal-image" class. */
+/* Create an "on-click" event attached to the ".crystal-image" class. */
 // This time, our click event applies to every single crystal on the page. Not just one.
   $(".crystal-image").on("click", function() {
 
@@ -128,48 +203,50 @@
     
     var crystalValue = ($(this).attr("data-crystalvalue"));
     crystalValue = parseInt(crystalValue);
-    console.log("============");
-    console.log("crystalValue " + crystalValue);
+//    console.log("============");
+ //   console.log("crystalValue " + crystalValue);
 
     // We then add the crystalValue to the user's "counter" which is a global variable.
     // Every click, from every crystal adds to the global counter.
-    console.log("counter " + counter);
+//    console.log("counter " + counter);
 
     counter += crystalValue;
 
-    console.log("counter " + counter + " crystalValue " + crystalValue);
-
- //   alert("New score: " + counter);
+//    console.log("click counter " + counter + " crystalValue " + crystalValue);
 
     // print new value to screen
     $("#userScore").text(counter);
 
     if (counter === targetNumber) {
-      alert("You win!");
       wins++;
       $("#userWins").text(wins);
+      alert("You win!");
         //The random number shown at the start of the game should be between 19 - 120.
       targetNumber = Math.floor(Math.random() * (120-19)) + 19;
-          // print values to screen
-    $("#number-to-guess").text(targetNumber);
-      counter = 0;
-    }
-    else if (counter >= targetNumber) {
-      alert("You lose!!");
-      losses++;
-      $("#userLosses").text(losses);
-      //The random number shown at the start of the game should be between 19 - 120.
-      targetNumber = Math.floor(Math.random() * (120-19)) + 19;
-          // print values to screen
+      // print value to screen
       $("#number-to-guess").text(targetNumber);
       counter = 0;
+      // regenerate new crystal values
+      createCrystalValues( numberOptions.length, numberOptions );
+    }
+    else if (counter >= targetNumber) {
+      losses++;
+      $("#userLosses").text(losses);
+      alert( "You lose!!" + " Your total was " + counter );
+      //The random number shown at the start of the game should be between 19 - 120.
+      targetNumber = Math.floor(Math.random() * (120-19)) + 19;
+      // print value to screen
+      $("#number-to-guess").text(targetNumber);
+      counter = 0;
+      // regenerate new crystal values
+      createCrystalValues( numberOptions.length, numberOptions );
     }
 
     // print new value to screen
     $("#userScore").text(counter);
-
   });
 </script>
+    
 <!-- 	Notes
   The player will have to guess the answer, just like in Hangman. This time, though, the player will guess with numbers instead of letters. 
 
